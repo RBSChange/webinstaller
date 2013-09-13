@@ -4,7 +4,7 @@
 
 	var	app = angular.module('RbsChangeWebInstaller');
 
-	app.service('RbsChange.i18n', function ()
+	app.service('RbsChange.i18n', function ($rootScope)
 	{
 		var	locale = document.getElementsByTagName('html')[0].lang,
 			strings;
@@ -21,6 +21,10 @@
 			strings = s;
 		}
 
+		$rootScope.localeIs = function localeIsFn (lc) {
+			return locale === lc;
+		};
+
 		return {
 			getLocale : getLocale,
 			trans : trans,
@@ -28,13 +32,9 @@
 		};
 	});
 
-	app.run(['RbsChange.i18n', '$rootScope', function (i18n, $rootScope)
-	{
-		$rootScope.localeIs = function localeIsFn (lc) {
-			return i18n.getLocale() === lc;
-		};
-	}]);
-
+	/**
+	 * Usage: <span i18n="my.localization.key"></span>
+	 */
 	app.directive('i18n', ['RbsChange.i18n', function (i18n)
 	{
 		return {
@@ -45,6 +45,9 @@
 		};
 	}]);
 
+	/**
+	 * Usage: <input ... placeholder="{{ 'my.localization.key' | i18n }}">
+	 */
 	app.filter('i18n', ['RbsChange.i18n', function (i18n)
 	{
 		return function (input) {

@@ -6,7 +6,9 @@
 		</h1>
 	</div>
 
-	<form role="form" name="settings" novalidate="" class="form-horizontal" ng-submit="submit()">
+	<form role="form" name="settingsForm" novalidate="" class="form-horizontal" ng-submit="submit()">
+
+		<!-- Website configuration -->
 
 		<fieldset>
 			<legend>
@@ -17,14 +19,14 @@
 			</div>
 
 			<div class="col-md-8 col-md-pull-4">
-				<div class="form-group" ng-class="{ 'has-error': settings.websiteUrl.$invalid && settings.websiteUrl.$dirty }">
+				<div class="form-group" ng-class="{ 'has-error': settingsForm.websiteUrl.$invalid && settingsForm.websiteUrl.$dirty }">
 					<label for="inputWebsiteUrl" class="col-md-4 control-label" i18n="settings.website-url"></label>
 					<div class="col-md-8">
 						<input type="url" name="websiteUrl" ng-model="websiteUrl" class="form-control" id="inputWebsiteUrl" required="required" placeholder="{{ 'settings.website-url-placeholder' | i18n }}"/>
 					</div>
 				</div>
 
-				<div class="form-group" ng-class="{ 'has-error': settings.websiteDocumentRoot.$invalid }">
+				<div class="form-group" ng-class="{ 'has-error': settingsForm.websiteDocumentRoot.$invalid }">
 					<label for="inputWebsiteDocumentRoot" class="col-md-4 control-label" i18n="settings.website-document-root"></label>
 					<div class="col-md-8">
 						<input class="form-control" name="websiteDocumentRoot" id="inputWebsiteDocumentRoot" type="text" required="required" ng-model="websiteDocumentRoot" disabled/>
@@ -32,6 +34,9 @@
 				</div>
 			</div>
 		</fieldset>
+
+
+		<!-- Database configuration -->
 
 		<fieldset>
 			<legend>
@@ -41,7 +46,7 @@
 			<div class="col-md-4 col-md-push-8" i18n="settings.db-help-text">
 			</div>
 
-			<div class="col-md-8 col-md-pull-4">
+			<div class="col-md-8 col-md-pull-4" ng-form="settingsDatabaseForm">
 				<div class="form-group">
 					<label for="inputDbEngine" class="col-md-4 control-label" i18n="settings.db-type"></label>
 					<div class="col-md-8">
@@ -50,26 +55,29 @@
 				</div>
 
 				<div ng-switch="dbEngine">
+
+					<!-- MySQL -->
+
 					<div ng-switch-when="mysql">
-						<div class="form-group" ng-class="{ 'has-error': settings.dbDatabase.$invalid && settings.dbDatabase.$dirty }">
+						<div class="form-group" ng-class="{ 'has-error': settingsForm.dbDatabase.$invalid && settingsForm.dbDatabase.$dirty }">
 							<label for="inputDbDatabase" class="col-md-4 control-label" i18n="settings.db-database"></label>
 							<div class="col-md-8">
 								<input type="text" name="dbDatabase" ng-model="mysql.database" class="form-control" id="inputDbDatabase" required="required" placeholder="{{ 'settings.db-database-placeholder' | i18n }}"/>
 							</div>
 						</div>
-						<div class="form-group" ng-class="{ 'has-error': settings.dbUser.$invalid && settings.dbUser.$dirty }">
+						<div class="form-group" ng-class="{ 'has-error': settingsForm.dbUser.$invalid && settingsForm.dbUser.$dirty }">
 							<label for="inputDbUser" class="col-md-4 control-label" i18n="settings.db-user"></label>
 							<div class="col-md-8">
 								<input type="text" name="dbUser" ng-model="mysql.user" class="form-control" id="inputDbUser" required="required" placeholder="{{ 'settings.db-user-placeholder' | i18n }}"/>
 							</div>
 						</div>
-						<div class="form-group" ng-class="{ 'has-warning': settings.dbPassword.$dirty && ! dbPassword }">
+						<div class="form-group" ng-class="{ 'has-warning': settingsForm.dbPassword.$dirty && ! dbPassword }">
 							<label for="inputDbPassword" class="col-md-4 control-label" i18n="settings.db-password"></label>
 							<div class="col-md-8">
 								<input type="password" name="dbPassword" ng-model="mysql.password" class="form-control" id="inputDbPassword" placeholder="{{ 'settings.db-password-placeholder' | i18n }}"/>
 							</div>
 						</div>
-						<div class="form-group" ng-class="{ 'has-error': settings.dbHost.$invalid && settings.dbHost.$dirty }">
+						<div class="form-group" ng-class="{ 'has-error': settingsForm.dbHost.$invalid && settingsForm.dbHost.$dirty }">
 							<label for="inputDbHost" class="col-md-4 control-label" i18n="settings.db-host"></label>
 							<div class="col-md-8">
 								<div class="input-group">
@@ -80,7 +88,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group" ng-class="{ 'has-error': settings.dbPort.$invalid && settings.dbPort.$dirty }">
+						<div class="form-group" ng-class="{ 'has-error': settingsForm.dbPort.$invalid && settingsForm.dbPort.$dirty }">
 							<label for="inputDbPort" class="col-md-4 control-label" i18n="settings.db-port"></label>
 							<div class="col-md-4">
 								<div class="input-group">
@@ -92,8 +100,11 @@
 							</div>
 						</div>
 					</div>
+
+					<!-- SQLite -->
+
 					<div ng-switch-when="sqlite">
-						<div class="form-group" ng-class="{ 'has-error': settings.dbFile.$invalid && settings.dbFile.$dirty }">
+						<div class="form-group" ng-class="{ 'has-error': settingsForm.dbFile.$invalid && settingsForm.dbFile.$dirty }">
 							<label for="inputSqliteFile" class="col-md-4 control-label" i18n="settings.db-sqlite-file"></label>
 							<div class="col-md-8">
 								<div class="input-group">
@@ -107,10 +118,21 @@
 						</div>
 					</div>
 				</div>
-			</div>
 
+				<div class="form-group">
+					<div class="col-md-8 col-md-offset-4">
+						<button type="button" ng-disabled="settingsDatabaseForm.$invalid || settingsDatabaseForm.$pristine" ng-click="checkSettings()" class="btn btn-success" i18n="settings.check-database"></button>
+						<div class="alert alert-danger" ng-if="settingsCheckErrorMessage">
+							{{ settingsCheckErrorMessage }}
+						</div>
+					</div>
+				</div>
+
+			</div>
 		</fieldset>
 
+
+		<!-- User account for the Change's adminstrator -->
 
 		<fieldset>
 			<legend>
@@ -122,32 +144,33 @@
 			</div>
 
 			<div class="col-md-8 col-md-pull-4">
-				<div class="form-group" ng-class="{ 'has-error': settings.adminEmail.$invalid && settings.adminEmail.$dirty }">
+				<div class="form-group" ng-class="{ 'has-error': settingsForm.adminEmail.$invalid && settingsForm.adminEmail.$dirty }">
 					<label for="inputAdminEmail" class="col-md-4 control-label" i18n="settings.admin-email"></label>
 					<div class="col-md-8">
 						<input type="email" name="adminEmail" ng-model="adminEmail" class="form-control" id="inputAdminEmail" required="required" placeholder="{{ 'settings.admin-email-placeholder' | i18n }}"/>
 					</div>
 				</div>
 
-				<div class="form-group" ng-class="{ 'has-error': settings.adminPassword.$invalid && settings.adminPassword.$dirty }">
+				<div class="form-group" ng-class="{ 'has-error': settingsForm.adminPassword.$invalid && settingsForm.adminPassword.$dirty }">
 					<label for="inputAdminPassword" class="col-md-4 control-label" i18n="settings.admin-password"></label>
 					<div class="col-md-8">
 						<div rbs-password-field ng-model="adminPassword" input-id="inputAdminPassword" name="adminPassword" required="required"></div>
 					</div>
 				</div>
 			</div>
-
 		</fieldset>
 
 		<div class="row" ng-hide="busy">
 			<div class="col-md-8">
 				<div class="col-md-8 col-md-offset-4">
 					<a class="btn btn-default btn-lg" href="#/checks"><i class="glyphicon glyphicon-chevron-left"></i> <span i18n="back"></span></a>
-					<button type="submit" ng-disabled="settings.$invalid || adminConfirmPassword != adminPassword" class="btn btn-primary btn-lg"><span i18n="continue"></span> <i class="glyphicon glyphicon-chevron-right"></i></button>
+					<button type="submit" ng-disabled="settingsForm.$invalid && ! settingsChecked" class="btn btn-primary btn-lg"><span i18n="continue"></span> <i class="glyphicon glyphicon-chevron-right"></i></button>
+					<span ng-if="! settingsChecked" class="help-block">
+						Merci de bien vouloir <a href="javascript:;" ng-click="checkSettings()">tester les paramètres de connexion à la base de données</a> avant de continuer.
+					</span>
 				</div>
 			</div>
 		</div>
-
 
 		<div class="row" ng-if="busy">
 			<h4>Avancement : {{ percent|number:0 }}%</h4>

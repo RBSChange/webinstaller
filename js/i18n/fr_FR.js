@@ -51,7 +51,8 @@
 			'settings.admin-help-text' : "<strong>RBS Change a besoin d'un minimum d'information pour la création du compte de l'administrateur.</strong><br/>Lors de votre première connexion à l'interface d'administration de Change, nous vous proposerons de compléter votre profil utilisateur, en saisissant votre nom et pourquoi pas un petit avatar sympa !",
 			'settings.admin-email' : "Adresse e-mail",
 			'settings.admin-password' : "Mot de passe",
-			'settings.admin-email-placeholder' : "Adresse e-mail de l'administrateur"
+			'settings.admin-email-placeholder' : "Adresse e-mail de l'administrateur",
+			'settings.check-database' : "Tester la connexion"
 		});
 	}]);
 })();
