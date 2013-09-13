@@ -1,0 +1,4 @@
+[type="password"] + .progress,
+[role="password"] + [role="confirmation"] {
+	margin-top: 5px;
+}
