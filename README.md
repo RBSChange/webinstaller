@@ -1,4 +1,4 @@
 RBS Change Web Installer
 ========================
 
-This package is the web interface to install RBS Change.
+This package is the web interface to install RBS Change 4.
