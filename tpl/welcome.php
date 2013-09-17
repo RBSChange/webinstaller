@@ -10,7 +10,7 @@
 					<a class="btn btn-lg btn-default" href="?l=fr_FR#/welcome" ng-class="{'active': localeIs('fr_FR')}">Français</a>
 					<a class="btn btn-lg btn-default" href="?l=en_US#/welcome" ng-class="{'active': localeIs('en_US')}">English</a>
 				</div>
-				<a class="btn btn-primary btn-lg" href="#/checks"><span i18n="welcome.start"></span> <i class="glyphicon glyphicon-chevron-right"></i></a>
+				<a class="btn btn-primary btn-lg" href="#/checks"><span i18n="welcome.start"></span> <i class="glyphicon glyphicon-arrow-right"></i></a>
 			</p>
 		</div>
 	</div>

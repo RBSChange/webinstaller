@@ -60,6 +60,10 @@
 
 	app.controller('RbsChange_WebInstaller_Settings', function ($scope, $http, $location, $q)
 	{
+		var	restUrl = 'rest/rest.php/',
+			p,
+			url = $location.absUrl();
+
 		$scope.busy = false;
 		$scope.dbEngines = [];
 		if (! availDbEngines.length) {
@@ -75,17 +79,18 @@
 
 		$scope.dbEngine = $scope.dbEngines[0].id;
 		$scope.dbDefaultFile = 'Sqlite.db';
+		$scope.settingsChecked = false;
 
 		$scope.mysql = {
 			port : 3306,
-			host : '127.0.0.1'
+			host : '127.0.0.1',
+			database : 'change4'
 		};
 		$scope.sqlite = {
 			file : $scope.dbDefaultFile
 		};
 
-		var	p, url = $location.absUrl();
-
+		// Determine website URL
 		p = url.indexOf('?');
 		if (p !== -1) {
 			url = url.substring(0, p);
@@ -98,10 +103,36 @@
 		$scope.websiteDocumentRoot = $('meta[name="DOCUMENT_ROOT"]').attr('content');
 
 
+		$scope.checkSettings = function () {
+			if ($scope.settingsDatabaseForm.$invalid) {
+				alert("Les paramètres de connexion à la base de données ne sont pas correctement renseignés.");
+				return;
+			}
+
+			var config = {};
+			config.type = $scope.dbEngine;
+			angular.extend(config, $scope[config.type]);
+
+			$http.get(makeUrl(restUrl + 'config/checkDbConfig', config))
+				.success(function (result) {
+					//console.log("save config success: ", result);
+					if (result.status === 'ok') {
+						$scope.settingsCheckErrorMessage = null;
+						$scope.settingsChecked = true;
+						$scope.settingsDatabaseForm.$setPristine();
+					}
+					else {
+						$scope.settingsCheckErrorMessage = result.error;
+					}
+				})
+				.error(function (result) {
+					console.log("save config error: ", result);
+				});
+		};
+
+
 		$scope.submit = function ()
 		{
-			var restUrl = 'rest/rest.php/';
-
 			saveConfiguration().then(
 				function () {
 					initializeProject().then(
