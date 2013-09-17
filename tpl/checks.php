@@ -15,8 +15,8 @@
 			<span i18n="check.server-is-ok"></span>
 		</div>
 		<div class="btn-toolbar">
-			<a class="btn btn-default btn-lg" href="#/welcome"><i class="glyphicon glyphicon-chevron-left"></i> <span i18n="back"></span></a>
-			<a href="#/settings" class="btn btn-primary btn-lg"><span i18n="continue"></span> <i class="glyphicon glyphicon-chevron-right"></i></a>
+			<a class="btn btn-default btn-lg" href="#/welcome"><i class="glyphicon glyphicon-arrow-left"></i> <span i18n="back"></span></a>
+			<a href="#/settings" class="btn btn-primary btn-lg"><span i18n="continue"></span> <i class="glyphicon glyphicon-arrow-right"></i></a>
 		</div>
 	</div>
 

@@ -52,7 +52,8 @@
 			'settings.admin-email' : "E-mail address",
 			'settings.admin-password' : "Password",
 			'settings.admin-email-placeholder' : "Administrator's e-mail address",
-			'settings.check-database' : "Check database connection"
+			'settings.check-database' : "Check database connection",
+			'settings.db-will-be-created' : "Change will try to create the database if it does not exist."
 		});
 	}]);
 })();

@@ -83,7 +83,8 @@
 
 		$scope.mysql = {
 			port : 3306,
-			host : '127.0.0.1'
+			host : '127.0.0.1',
+			database : 'change4'
 		};
 		$scope.sqlite = {
 			file : $scope.dbDefaultFile

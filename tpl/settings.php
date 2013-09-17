@@ -63,8 +63,10 @@
 							<label for="inputDbDatabase" class="col-md-4 control-label" i18n="settings.db-database"></label>
 							<div class="col-md-8">
 								<input type="text" name="dbDatabase" ng-model="mysql.database" class="form-control" id="inputDbDatabase" required="required" placeholder="{{ 'settings.db-database-placeholder' | i18n }}"/>
+								<span class="help-block" i18n="settings.db-will-be-created"></span>
 							</div>
 						</div>
+
 						<div class="form-group" ng-class="{ 'has-error': settingsForm.dbUser.$invalid && settingsForm.dbUser.$dirty }">
 							<label for="inputDbUser" class="col-md-4 control-label" i18n="settings.db-user"></label>
 							<div class="col-md-8">
@@ -132,7 +134,7 @@
 		</fieldset>
 
 
-		<!-- User account for the Change's adminstrator -->
+		<!-- User account for the Change's administrator -->
 
 		<fieldset>
 			<legend>
@@ -163,8 +165,8 @@
 		<div class="row" ng-hide="busy">
 			<div class="col-md-8">
 				<div class="col-md-8 col-md-offset-4">
-					<a class="btn btn-default btn-lg" href="#/checks"><i class="glyphicon glyphicon-chevron-left"></i> <span i18n="back"></span></a>
-					<button type="submit" ng-disabled="settingsForm.$invalid && ! settingsChecked" class="btn btn-primary btn-lg"><span i18n="continue"></span> <i class="glyphicon glyphicon-chevron-right"></i></button>
+					<a class="btn btn-default btn-lg" href="#/checks"><i class="glyphicon glyphicon-arrow-left"></i> <span i18n="back"></span></a>
+					<button type="submit" ng-disabled="settingsForm.$invalid || ! settingsChecked" class="btn btn-primary btn-lg"><span i18n="continue"></span> <i class="glyphicon glyphicon-arrow-right"></i></button>
 					<span ng-if="! settingsChecked" class="help-block">
 						Merci de bien vouloir <a href="javascript:;" ng-click="checkSettings()">tester les paramètres de connexion à la base de données</a> avant de continuer.
 					</span>
