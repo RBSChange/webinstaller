@@ -51,7 +51,9 @@
 			'settings.admin-help-text' : "<strong>RBS Change needs a minimum set of information to create the user account for the administrator.</strong><br/>When you'll first log in, Change will suggest you to complete your user profile, with your name. And what about choosing a nice and funny avatar?",
 			'settings.admin-email' : "E-mail address",
 			'settings.admin-password' : "Password",
-			'settings.admin-email-placeholder' : "Administrator's e-mail address"
+			'settings.admin-email-placeholder' : "Administrator's e-mail address",
+			'settings.check-database' : "Check database connection",
+			'settings.db-will-be-created' : "Change will try to create the database if it does not exist."
 		});
 	}]);
 })();
