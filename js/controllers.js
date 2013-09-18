@@ -23,6 +23,7 @@
 		if (! results['php_version']) {
 			errors.push('php_version');
 		}
+		availDbEngines.length = 0;
 		angular.forEach(results['php_ext'], function (value, name) {
 			if (name.substr(0, 4) === 'pdo_') {
 				if (value) {
