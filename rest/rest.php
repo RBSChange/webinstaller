@@ -1,5 +1,5 @@
 <?php
-require_once('../../../Change/Application.php');
+require_once('../../Change/Application.php');
 require_once('ConfigResolver.php');
 
 $application = new \Change\Application();

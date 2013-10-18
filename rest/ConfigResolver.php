@@ -62,7 +62,7 @@ class ConfigResolver
 		$dbType = $event->getRequest()->getQuery('type', 'mysql');
 		if ($dbType === 'sqlite')
 		{
-			$editConfig->addPersistentEntry('Change/Db/use', 'sqlite', \Change\Configuration\EditableConfiguration::INSTANCE);
+			$editConfig->addPersistentEntry('Change/Db/use', 'sqlite', \Change\Configuration\EditableConfiguration::PROJECT);
 			$file = $request->getQuery('file', self::DEFAULT_SQLITE_FILE);
 			$onWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 			$absolute = substr($file, 0, 1) === DIRECTORY_SEPARATOR || ($onWindows && preg_match('/^[A-Z]:\/\//i', $file));
@@ -70,15 +70,15 @@ class ConfigResolver
 			{
 				$file = $application->getWorkspace()->appPath($file);
 			}
-			$editConfig->addPersistentEntry('Change/Db/sqlite/database', $file, \Change\Configuration\EditableConfiguration::INSTANCE);
+			$editConfig->addPersistentEntry('Change/Db/sqlite/database', $file, \Change\Configuration\EditableConfiguration::PROJECT);
 		}
 		else
 		{
-			$editConfig->addPersistentEntry('Change/Db/use', 'default', \Change\Configuration\EditableConfiguration::INSTANCE);
-			$editConfig->addPersistentEntry('Change/Db/default/host', $request->getQuery('host', self::DEFAULT_MYSQL_HOST), \Change\Configuration\EditableConfiguration::INSTANCE);
-			$editConfig->addPersistentEntry('Change/Db/default/port', $request->getQuery('port', self::DEFAULT_MYSQL_PORT), \Change\Configuration\EditableConfiguration::INSTANCE);
-			$editConfig->addPersistentEntry('Change/Db/default/user', $request->getQuery('user'), \Change\Configuration\EditableConfiguration::INSTANCE);
-			$editConfig->addPersistentEntry('Change/Db/default/password', $request->getQuery('password'), \Change\Configuration\EditableConfiguration::INSTANCE);
+			$editConfig->addPersistentEntry('Change/Db/use', 'default', \Change\Configuration\EditableConfiguration::PROJECT);
+			$editConfig->addPersistentEntry('Change/Db/default/host', $request->getQuery('host', self::DEFAULT_MYSQL_HOST), \Change\Configuration\EditableConfiguration::PROJECT);
+			$editConfig->addPersistentEntry('Change/Db/default/port', $request->getQuery('port', self::DEFAULT_MYSQL_PORT), \Change\Configuration\EditableConfiguration::PROJECT);
+			$editConfig->addPersistentEntry('Change/Db/default/user', $request->getQuery('user'), \Change\Configuration\EditableConfiguration::PROJECT);
+			$editConfig->addPersistentEntry('Change/Db/default/password', $request->getQuery('password'), \Change\Configuration\EditableConfiguration::PROJECT);
 			$databaseName = $this->fixDatabaseName($request->getQuery('database'));
 			$editConfig->addPersistentEntry('Change/Db/default/database', $databaseName);
 		}
@@ -140,7 +140,7 @@ class ConfigResolver
 			$config->addVolatileEntry('Change/Db/default/database', $databaseName);
 
 			$applicationServices = new \Change\Application\ApplicationServices($application);
-			$dbProvider = \Change\Db\DbProvider::newInstance($application->getConfiguration());
+			$dbProvider = $applicationServices->getDbProvider();
 			$dbProvider->setLogging($applicationServices->getLogging());
 			$schema = $dbProvider->getSchemaManager();
 			$table = $schema->newTableDefinition(self::TEST_CREATE_TABLE_NAME);

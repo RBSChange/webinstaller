@@ -188,9 +188,9 @@
 				var defer = $q.defer(), commands, step;
 
 				commands = [
-					{ 'name': 'change:set-document-root', 'params' : { 'path': $scope.websiteDocumentRoot } },
+					{ 'name': 'change:set-document-root', 'params' : { 'webBaseDirectory': $scope.websiteDocumentRoot } },
 					{ 'name': 'change:generate-db-schema' },
-					{ 'name': 'change:register-plugins' },
+					{ 'name': 'change:register-plugin', 'params': {'all': true} },
 					{ 'name': 'change:install-package', 'params' : { 'vendor': 'Rbs', 'name': 'Core' } },
 					{ 'name': 'change:install-package', 'params' : { 'vendor': 'Rbs', 'name': 'ECom' } },
 					{ 'name': 'change:install-plugin', 'params' : { 'vendor': 'Rbs', 'name': 'Demo', 'type': 'theme' } },
